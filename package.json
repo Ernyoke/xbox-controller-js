@@ -1,0 +1,23 @@
+{
+  "name": "xbox-controller",
+  "version": "0.0.1",
+  "description": "Xbox controller support for modern browsers.",
+  "main": "xbox.js",
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "keywords": [
+    "xbox",
+    "controller"
+  ],
+  "author": "Ervin Szilagyi",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.1",
+    "karma-sinon": "^1.0.5"
+  }
+}
