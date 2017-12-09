@@ -9,29 +9,34 @@ function XboxController(index) {
     }
 
     this.buttons = [
-        "A",
-        "B",
-        "X",
-        "Y",
-        "LB",
-        "RB",
-        "LT",
-        "RT",
-        "BACK",
-        "START",
-        "L_STICK",
-        "R_STICK",
-        "D_UP",
-        "D_DOWN",
-        "D_LEFT",
-        "D_RIGHT"
+        "a",
+        "b",
+        "x",
+        "y",
+        "lb",
+        "rb",
+        "lt",
+        "rt",
+        "back",
+        "start",
+        "l_stick",
+        "r_stick",
+        "d_up",
+        "d_down",
+        "d_left",
+        "d_right"
+    ];
+
+    this.sticks = [
+        "l_stick",
+        "r_stick"
     ]
 }
 
 XboxController.prototype.__getGamepad = function() {
     var connectedControllers = getAllConnectedControllers();
     if (connectedControllers.length > this.index) {
-        return getAllConnectedControllers()[this.index];
+        return connectedControllers[this.index];
     }
     return null;
 };
@@ -67,9 +72,21 @@ XboxController.prototype.isControllerConnected = function() {
 XboxController.prototype.getControllerInput = function() {
     var controller = this.__getGamepad();
     var result = {};
-    if (controller && controller.buttons) {
-        for (var i = 0; i < this.buttons.length; ++i) {
-            result[this.buttons[i]] = controller.buttons[i];
+    if (controller) {
+        if (controller.buttons) {
+            result.buttons = {};
+            for (var i = 0; i < this.buttons.length; ++i) {
+                result.buttons[this.buttons[i]] = controller.buttons[i].pressed;
+            }
+        }
+        if (controller.axes) {
+            result.sticks = {};
+            for (var i = 0; i < this.sticks.length; ++i) {
+                var j = i * 2;
+                result.sticks[this.sticks[i]] = {};
+                result.sticks[this.sticks[i]].x = controller.axes[j];
+                result.sticks[this.sticks[i]].y = controller.axes[j + 1];
+            }
         }
     }
     return result;
@@ -77,7 +94,13 @@ XboxController.prototype.getControllerInput = function() {
 
 //----------utility functions-----------------
 var getAllConnectedControllers = function() {
-    return navigator.getGamepads();
+    if (navigator.getGamepads) {
+        return navigator.getGamepads();
+    }
+    if (navigator.webkitGetGamepads) {
+        return navigator.webkitGetGamepads();
+    }
+    return null;
 };
 
 // Check if the browser has support for the Gamepad API. For more information about compatibility,
