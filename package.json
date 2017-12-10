@@ -13,11 +13,15 @@
   "author": "Ervin Szilagyi",
   "license": "ISC",
   "devDependencies": {
+    "browserify": "^14.5.0",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
+    "karma-browserify": "^5.1.2",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.1",
-    "karma-sinon": "^1.0.5"
+    "karma-sinon": "^1.0.5",
+    "lodash": "^4.17.4",
+    "sinon": "^4.1.3"
   }
 }

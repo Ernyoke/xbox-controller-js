@@ -1,3 +1,6 @@
+//Copyright header goes here
+
+var _ = require('lodash');
 
 describe("Xbox controller tests", function() {
 
@@ -53,6 +56,28 @@ describe("Xbox controller tests", function() {
         mockNavigator.verify();
     });
 
+
+    it("get all connected controllers index and id", function () {
+        var gamepad2 = _.cloneDeep(gamepad);
+        gamepad2.id = "PLAYSTATION controller";
+        var gamepad3 = _.cloneDeep(gamepad);
+        gamepad3.id = "UNKNOWN controller";
+        mockNavigator = sinon.mock(navigator);
+        mockNavigator.expects("getGamepads").returns([gamepad, gamepad2, gamepad3, null]);
+
+        var controllerIDandIdx = getAllConnectedcontrollerIdAndIndex();
+        expect(controllerIDandIdx).not.toBe(undefined);
+        expect(controllerIDandIdx.length).toBe(3);
+        expect(controllerIDandIdx[0].controllerId).toBe("Xbox 360 Controller (XInput STANDARD GAMEPAD)");
+        expect(controllerIDandIdx[0].index).toBe(0);
+        expect(controllerIDandIdx[1].controllerId).toBe("PLAYSTATION controller");
+        expect(controllerIDandIdx[1].index).toBe(1);
+        expect(controllerIDandIdx[2].controllerId).toBe("UNKNOWN controller");
+        expect(controllerIDandIdx[2].index).toBe(2);
+
+        mockNavigator.verify();
+    });
+
     it("controller is connected", function() {
         mockNavigator = sinon.mock(navigator);
         mockNavigator.expects("getGamepads").returns([gamepad, null, null, null]);
@@ -92,6 +117,8 @@ describe("Xbox controller tests", function() {
         expect(input.buttons.d_down).toBe(false);
         expect(input.buttons.d_left).toBe(false);
         expect(input.buttons.d_right).toBe(false);
+
+        mockNavigator.verify();
     });
 
     it("get controller input x and d_right pressed", function() {
@@ -119,6 +146,8 @@ describe("Xbox controller tests", function() {
         expect(input.buttons.d_down).toBe(false);
         expect(input.buttons.d_left).toBe(false);
         expect(input.buttons.d_right).toBe(true);
+
+        mockNavigator.verify();
     });
 
     it("get sticks middle position", function() {
@@ -132,6 +161,8 @@ describe("Xbox controller tests", function() {
         expect(input.sticks.l_stick.y).toBe(0);
         expect(input.sticks.r_stick.x).toBe(0);
         expect(input.sticks.r_stick.y).toBe(0);
+
+        mockNavigator.verify();
     });
 
 });

@@ -30,7 +30,7 @@ function XboxController(index) {
     this.sticks = [
         "l_stick",
         "r_stick"
-    ]
+    ];
 }
 
 XboxController.prototype.__getGamepad = function() {
@@ -103,9 +103,32 @@ var getAllConnectedControllers = function() {
     return null;
 };
 
+// Returns an array of {index, controllerId} objects.
+var getAllConnectedcontrollerIdAndIndex = function() {
+    var controllers = getAllConnectedControllers();
+    if (controllers) {
+        var result = [];
+        for (var i = 0; i < controllers.length; ++i) {
+            if (controllers[i]) {
+                result.push({
+                    index: i,
+                    controllerId: controllers[i].id
+                });
+            }
+        }
+        return result;
+    }
+    return null;
+};
+
 // Check if the browser has support for the Gamepad API. For more information about compatibility,
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Gamepad
-var checkBrowserCompatibility = function () {
+var checkBrowserCompatibility = function() {
     return !!getAllConnectedControllers();
 };
+
+//----------Node style export---------------
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = Validator;
+}
 
